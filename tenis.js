@@ -10,5 +10,5 @@ const tenis = [
 
     {id: 5, name: 'Tênis Asics Gel-Impression 11 Masculino', price: 237.99, size: [40, 41, 42, 43, 44], img: 'img/tenis5.jpg'},
 
-    {id: 6, name: 'Tênis Masculino Esporte Cadarço Academia Corrida Dia a Dia - Preto', price: 80.00, size: [40, 41, 42, 43, 44], img: 'img/tenis6.jpg'},
+    {id: 6, name: 'Tênis Masculino Esporte Cadarço Academia Corrida Dia a Dia - Preto', price: 80.00, size: [40, 41, 42, 43, 44], img: 'img/tenis6.jpg'}
 ]

@@ -6,14 +6,41 @@ const selectors = (ele)=>{
 }
 
 let cart = []
+let listFavorite = []
 let modalKey = 0;
+
 
 
 tenis.map(function(item, index){
     let itemProduct = document.querySelector('.itemProduct').cloneNode(true)
+    let iFavorite = document.querySelector('.model .addToFavorites').cloneNode(true)
+    let windowInfoProduct = document.querySelector('.windowInfoProduct')
+
+    iFavorite.setAttribute('data-index', index)
     let quantSelector = selector('.quant')
     let quantItens = 1
     quantSelector.innerHTML = quantItens
+
+    let areaFav = selector('.model .areaFav').cloneNode(true)
+    areaFav.setAttribute('id', index)
+    let h3Fav = areaFav.querySelector('.areaItemFav h3')
+    let imgFav = areaFav.querySelector('.areaItemFav img')
+    
+    h3Fav.innerHTML = item.name
+    imgFav.setAttribute('src', `${item.img}`)
+    
+    iFavorite.addEventListener('click', (evento) =>{
+        areaFav.classList.add('favorited')
+        iFavorite.classList.remove('bi-heart')
+        iFavorite.classList.add('bi-heart-fill')
+        console.log(areaFav)
+
+        if(areaFav.classList.contains('favorited' )){
+            selector('.areaFavItens').append(areaFav)
+        } 
+    
+    })
+
 
 
     itemProduct.setAttribute('data-key', index)
@@ -21,10 +48,12 @@ tenis.map(function(item, index){
     itemProduct.querySelector('.priceProduct').innerHTML = 'R$ '+item.price.toFixed(2)
     itemProduct.querySelector('.imgProduct').setAttribute('src', `${item.img}`)
 
+
     itemProduct.querySelector('.moreInfoProduct').addEventListener('click', (evento) =>{
         let key = evento.target.closest('.itemProduct').getAttribute('data-key')
-        modalKey = key
+        modalKey = key    
 
+        windowInfoProduct.prepend(iFavorite)
         selector('.wTitleProduct').innerHTML = tenis[key].name
         selector('.wPriceProduct').innerHTML = `R$ ${tenis[key].price.toFixed(2)}`
         selector('.wImgProduct').src = tenis[key].img
@@ -37,18 +66,38 @@ tenis.map(function(item, index){
         }, 200)
     })
 
+    selector('.closeWindow').addEventListener('click', ()=>{
+        iFavorite.remove()
+        selector('.windowInfoProduct').style.opacity = 1
+        selector('.windowInfoProduct').style.opacity = 0
+        setTimeout(function(){
+            selector('.windowInfoProduct').style.display = 'none'
+        }, 200)
+        quantItens = 1
+    })
+
     document.querySelector('.sectionProducts').append(itemProduct)
 })
 
+// addToFavorites.forEach((it, indice) =>{
+//     it.setAttribute('data-index',indice)
+//     console.log(it)
+//     it.addEventListener('click', (index, i)=>{
+//         const clicedIndex = parseInt(index.target.getAttribute('data-index', indice))
+//         const itemClicked = tenis[clicedIndex]
+        
+//         console.log(it)
 
-selector('.closeWindow').addEventListener('click', ()=>{
-    selector('.windowInfoProduct').style.opacity = 1
-    selector('.windowInfoProduct').style.opacity = 0
-    setTimeout(function(){
-        selector('.windowInfoProduct').style.display = 'none'
-    }, 200)
-    quantItens = 1
-})
+//         let areaFav = selector('.model .areaFav').cloneNode(true)
+//         let h3Fav = areaFav.querySelector('.areaItemFav h3')
+//         let imgFav = areaFav.querySelector('.areaItemFav img')
+
+//         h3Fav.innerHTML = itemClicked.name
+//         imgFav.setAttribute('src', `${itemClicked.img}`)
+
+//         selector('.areaFavItens').append(areaFav)
+//     })
+// })
 
 
 selectors('.sizeProduct').forEach((size)=>{
@@ -179,12 +228,38 @@ function updateCart(){
 
 
 
-selector('.closeCart').addEventListener('click', () =>{
-    cart = []
-    updateCart()
-})
+// selector('.closeCart').addEventListener('click', () =>{
+//     cart = []
+//     setTimeout(() =>{
+//         selector('.sectionCart').style.width = '0'
+//         selector('.sectionCart').style.display = 'none'
+//     }, 200)
+//     updateCart()
+// })
 
 selector('.cart').addEventListener('click', () =>{
-    selector('.sectionCart').style.display = 'flex'
+    let df = selector('.sectionCart')
+    df.style.display = 'flex'
+    setTimeout(() =>{
+        df.style.width = '85%'
+    }, 200)
+    selector('body').style.overflow = 'hidden'
+    
+    selector('.closeCart').addEventListener('click', () =>{
+        df.style.width = '0'
+        setTimeout(() =>{
+            selector('.sectionCart').style.display = 'flex'
+        }, 200)
+        selector('body').style.overflow = 'scroll'
+    })
+})
+
+selector('.favorite').addEventListener('click', () =>{
+    let secFav = selector('.sectionFavorite')
+    secFav.style.display = 'flex'
+
+    selector('.closeFav').addEventListener('click', () =>{
+        secFav.style.display = 'none'
+    })
 })
 
